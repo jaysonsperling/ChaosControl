@@ -1,3 +1,9 @@
+/**
+ * CommandControl.java - Command processor class for user/console-entered commands
+ * 
+ * Created by JaysonBond (ongoing)
+ */
+
 package com.minecats.cindyk.chaoscontrol;
 
 import org.bukkit.ChatColor;

@@ -1,3 +1,10 @@
+/**
+ * ChaosControl.java - Main class for enable/disable/load config/reload
+ * 
+ * Created by cindy on 4/16/14.
+ * Updated by JaysonBond (ongoing)
+ */
+
 package com.minecats.cindyk.chaoscontrol;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -8,12 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-/**
- * Created by cindy on 4/16/14.
- * Updated by JaysonBond (ongoing)
- */
 public class ChaosControl extends JavaPlugin {
-
+	
     PlayerControl playercontrol;
     WorldControl worldcontrol;
     TeleportControl teleportcontrol;
@@ -80,6 +83,10 @@ public class ChaosControl extends JavaPlugin {
 	        	this.getServer().getLogger().info(" " + line);
 	        }
 	        this.getServer().getLogger().info("[ChaosControl] *** Required Input: " + getConfig().getString("stringTextToAccept"));
+	        this.getServer().getLogger().info("[ChaosControl] *** Move player to different world? " + getConfig().getBoolean("transportPlayer"));
+	        this.getServer().getLogger().info("[ChaosControl] *** World: " + getConfig().getString("transportPlayerToWorld"));
+	        this.getServer().getLogger().info("[ChaosControl] *** Change player's gamemode? " + getConfig().getBoolean("changeGameMode"));
+	        this.getServer().getLogger().info("[ChaosControl] *** Gamemode: " + getConfig().getString("changeGameModeTo"));
         }
         this.getServer().getLogger().info("[ChaosControl] Configuration loaded successfully!");
     }

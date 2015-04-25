@@ -1,12 +1,16 @@
+/**
+ * TeleportControl.java - Final executor for actions to take on the player once they accept the agreement
+ * 
+ * Created by cindy on 4/16/14.
+ * Updated by JaysonBond (ongoing)
+ */
+
 package com.minecats.cindyk.chaoscontrol;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Created by cindy on 4/20/14.
- */
 public class TeleportControl extends BukkitRunnable {
 
     private final ChaosControl plugin;
@@ -19,13 +23,15 @@ public class TeleportControl extends BukkitRunnable {
 
     @Override
     public void run() {
-    	pp.sendMessage(plugin.getConfig().getString("stringAcceptedRules"));
+    	if (pp.isOnline() && pp.isValid()) {
+    		pp.sendMessage(plugin.getConfig().getString("stringAcceptedRules"));
+    	}
 
     	// Check to see, and execute on, if we want to send the player to another world
         if (plugin.getConfig().getBoolean("transportPlayer") == true)
         {
         	// If I could figure out how to test for worlds w/ all the different plugins, I'd put validation here...
-            plugin.getServer().getLogger().info("[ChaosControl] Trying to send " + pp.getDisplayName() + " to world [" + plugin.getConfig().getString("transportPlayerToWorld") + "]");
+            plugin.getServer().getLogger().info("[ChaosControl] Sending " + pp.getDisplayName() + " to world [" + plugin.getConfig().getString("transportPlayerToWorld") + "]");
     		pp.teleport(plugin.getServer().getWorld(plugin.getConfig().getString("transportPlayerToWorld")).getSpawnLocation());
         }
     	
@@ -36,15 +42,19 @@ public class TeleportControl extends BukkitRunnable {
     		{
     		case "CREATIVE":
         		pp.setGameMode(GameMode.CREATIVE);
+        		plugin.getServer().getLogger().info("[ChaosControl] Setting gamemode of " + pp.getCustomName() + " to CREATIVE");
         		break;
     		case "SURVIVAL":
         		pp.setGameMode(GameMode.SURVIVAL);
+        		plugin.getServer().getLogger().info("[ChaosControl] Setting gamemode of " + pp.getCustomName() + " to SURVIVAL");
         		break;
     		case "ADVENTURE":
         		pp.setGameMode(GameMode.ADVENTURE);
+        		plugin.getServer().getLogger().info("[ChaosControl] Setting gamemode of " + pp.getCustomName() + " to ADVENTURE");
         		break;
     		case "SPECTATOR":
         		pp.setGameMode(GameMode.SPECTATOR);
+        		plugin.getServer().getLogger().info("[ChaosControl] Setting gamemode of " + pp.getCustomName() + " to SPECTATOR");
         		break;
         	default:
                 plugin.getServer().getLogger().info("[ChaosControl] Tried to set gamemode for " + pp.getDisplayName() + " but config has invalid gamemode!");

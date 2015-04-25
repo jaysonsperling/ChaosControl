@@ -1,3 +1,10 @@
+/**
+ * PlayerControl.java - Class to handle stuff that Players do (move, chat, join, etc)
+ * 
+ * Created by cindy on 4/16/14.
+ * Updated by JaysonBond (ongoing)
+ */
+
 package com.minecats.cindyk.chaoscontrol;
 
 import org.bukkit.ChatColor;
@@ -13,9 +20,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 
-/**
- * Created by cindy on 4/16/14.
- */
 public class PlayerControl implements Listener {
 
     ChaosControl plugin;
@@ -128,7 +132,6 @@ public class PlayerControl implements Listener {
     	final Player p = event.getPlayer();
     	if (!p.hasMetadata("ChaosControl.confirmed"))
     	{
-    		// p.sendMessage("You cannot move until you confirm your age");
     		final Location tpLoc = new Location(event.getFrom().getWorld(), (double)event.getFrom().getBlockX(), (double)event.getFrom().getBlockY(), (double)event.getFrom().getBlockZ());
             tpLoc.setPitch(event.getPlayer().getLocation().getPitch());
             tpLoc.setYaw(event.getPlayer().getLocation().getYaw());
@@ -142,12 +145,12 @@ public class PlayerControl implements Listener {
         final Player p = event.getPlayer();
         if(!p.hasMetadata("ChaosControl.confirmed"))
         {
-            plugin.getLogger().info("RECEIVED MESSAGE: " + event.getMessage());
             if(event.getMessage().compareTo(plugin.getConfig().getString("stringTextToAccept"))==0)
             {
                 p.setMetadata("ChaosControl.confirmed",new FixedMetadataValue(plugin,true));
-
-                BukkitTask task = new TeleportControl(this.plugin,p).runTaskLater(this.plugin, 20);
+                plugin.getLogger().info("[ChaosControl] " + p.getDisplayName() + " has accepted the agreement!");
+                @SuppressWarnings("unused")
+				BukkitTask task = new TeleportControl(this.plugin,p).runTaskLater(this.plugin, 20);
             }
             else
             {
