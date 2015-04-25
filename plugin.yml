@@ -1,0 +1,10 @@
+name: ChaosControl
+main: com.minecats.cindyk.chaoscontrol.ChaosControl
+version: 1.0
+commands:
+  ccreload:
+    description: Reloads the Chaos Control configuration file
+    usage: /ccreload
+  ccinfo:
+    description: Shows the current running parameters of Chaos Control
+    usage: /ccinfo

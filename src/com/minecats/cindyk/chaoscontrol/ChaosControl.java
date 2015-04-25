@@ -1,5 +1,6 @@
 package com.minecats.cindyk.chaoscontrol;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
@@ -9,13 +10,15 @@ import java.util.List;
 
 /**
  * Created by cindy on 4/16/14.
+ * Updated by JaysonBond (ongoing)
  */
 public class ChaosControl extends JavaPlugin {
 
     PlayerControl playercontrol;
     WorldControl worldcontrol;
     TeleportControl teleportcontrol;
-
+    FileConfiguration config = getConfig();
+    
     @Override
     public void onDisable() {
         super.onDisable();
@@ -26,7 +29,9 @@ public class ChaosControl extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-
+        
+        loadConfig();
+        
         PlayerControl playercontrol = new PlayerControl(this);
         WorldControl worldcontrol = new WorldControl(this);
 
@@ -34,11 +39,13 @@ public class ChaosControl extends JavaPlugin {
         pluginManager.registerEvents(playercontrol, this);
         pluginManager.registerEvents(worldcontrol, this);
 
-        this.getServer().getLogger().info("Enabled");
+        this.getCommand("ccreload").setExecutor(new CommandControl(this));
+        this.getCommand("ccinfo").setExecutor(new CommandControl(this));
 
+        this.getServer().getLogger().info("[ChaosControl] Enabled");
     }
-
-    //Utiliy metadata functions...
+    
+	// Utility metadata functions...
     public String getMetadataString(Player player, String key, ChaosControl plugin) {
         List<MetadataValue> values = player.getMetadata(key);
         for (MetadataValue value : values) {
@@ -59,4 +66,21 @@ public class ChaosControl extends JavaPlugin {
         return false;
     }
 
+    // Configuration functions...
+    public void loadConfig() {
+        this.getServer().getLogger().info("[ChaosControl] Loading config...");
+        this.saveDefaultConfig();
+        if (getConfig().getBoolean("verbose")==true) {
+	        this.getServer().getLogger().info("[ChaosControl] *** Extra verbose? " + getConfig().getBoolean("verbose"));
+	        this.getServer().getLogger().info("[ChaosControl] *** Number of warnings: " + getConfig().getInt("numberOfWarnings"));
+	        this.getServer().getLogger().info("[ChaosControl] *** Kick enabled? " + getConfig().getBoolean("enableKick"));
+	        this.getServer().getLogger().info("[ChaosControl] *** Rules List:");
+	        for(String line : this.getConfig().getStringList("arrayMessageLines"))
+	        {
+	        	this.getServer().getLogger().info(" " + line);
+	        }
+	        this.getServer().getLogger().info("[ChaosControl] *** Required Input: " + getConfig().getString("stringTextToAccept"));
+        }
+        this.getServer().getLogger().info("[ChaosControl] Configuration loaded successfully!");
+    }
 }
