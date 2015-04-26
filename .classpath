@@ -12,5 +12,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/jaysonsperling/Minecraft/server/plugins/PermissionsEx-1.23.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,10 +1,46 @@
 name: ChaosControl
-main: com.minecats.cindyk.chaoscontrol.ChaosControl
 version: 1.0
-commands:
-  ccreload:
-    description: Reloads the Chaos Control configuration file
-    usage: /ccreload
-  ccinfo:
-    description: Shows the current running parameters of Chaos Control
+author: cindy_k
+authors: 
+  - JaysonBond
+  
+main: com.minecats.cindyk.chaoscontrol.ChaosControl
+
+commands: 
+  ccbypass: 
+    description: "Adds a player to the bypass list, whitelisting them from rules"
+    permission: chaoscontrol.bypass
+    usage: "/ccbypass [PlayerName]"
+  ccinfo: 
+    description: "Shows the current running parameters of Chaos Control"
+    permission: chaoscontrol.info
     usage: /ccinfo
+  ccpermissions: 
+    description: "Shows you your current permissions"
+    permission: chaoscontrol.permissions
+    usage: /ccpermissions
+  ccreload: 
+    description: "Reloads the Chaos Control configuration file"
+    permission: chaoscontrol.reload
+    usage: /ccreload
+
+permissions: 
+  chaoscontrol.admin: 
+    children: 
+      chaoscontrol.bypass: true
+      chaoscontrol.info: true
+      chaoscontrol.permissions: true
+      chaoscontrol.reload: true
+    description: "Gives access to all ChaosControl commands"
+  chaoscontrol.bypass: 
+    default: op
+    description: "Allows you to add a player to the bypass group (no nagging about accepting rules)"
+  chaoscontrol.info: 
+    default: op
+    description: "Shows the current ChaosControl configuration"
+  chaoscontrol.permissions: 
+    default: op
+    description: "Allows you to view your permissions"
+  chaoscontrol.reload: 
+    default: op
+    description: "Reloads the ChaosControl configuration"

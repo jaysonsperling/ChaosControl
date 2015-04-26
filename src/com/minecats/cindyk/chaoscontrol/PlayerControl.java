@@ -76,19 +76,27 @@ public class PlayerControl implements Listener {
 
                         if(count < plugin.getConfig().getInt("numberOfWarnings"))
                         {
-                            plugin.getLogger().info("[ChaosControl] Additional warning Sent to " + p.getDisplayName() + " || Count: "+count);
+                            plugin.getLogger().info("[ChaosControl] Additional warning Sent to " + p.getDisplayName() + " || Count: " + count);
                             sendWarning(p);
                             count++;
-                            p.setMetadata("ChaosControl.count",new FixedMetadataValue(plugin,""+count));
+                            p.setMetadata("ChaosControl.count", new FixedMetadataValue(plugin, "" + count));
                         }
                         else
                         {
-                        	if (plugin.getConfig().getBoolean("enableKick")==true) {
+                        	// Just in case someone has BOTH options set, we'll go with the lesser of the 2 evils
+                        	if (plugin.getConfig().getBoolean("enableNotAgreedKick", false) == true && plugin.getConfig().getBoolean("enableNotAgreedKill", false) == true && p.isOnline() && p.isValid())
+                        	{
                         		p.kickPlayer(plugin.getConfig().getString("stringKickPlayerForNotConfirming"));
-                        	} else {
-                        		p.setHealth(0);
-                        		p.sendMessage(plugin.getConfig().getString("stringPleaseAcceptRules"));
                         	}
+                        	if (plugin.getConfig().getBoolean("enableNotAgreedKick", false) == true && p.isOnline() && p.isValid())
+                        	{
+                        		p.kickPlayer(plugin.getConfig().getString("stringKickPlayerForNotConfirming"));
+                        	}
+                        	if (plugin.getConfig().getBoolean("enableNotAgreedKill", false) == true && p.isOnline() && p.isValid() && !p.isDead())
+                        	{
+                        		p.setHealth(0);
+                        	}
+                    		p.sendMessage(plugin.getConfig().getString("stringPleaseAcceptRules"));
                         }
                     }
                     else
@@ -148,7 +156,7 @@ public class PlayerControl implements Listener {
             if(event.getMessage().compareTo(plugin.getConfig().getString("stringTextToAccept"))==0)
             {
                 p.setMetadata("ChaosControl.confirmed",new FixedMetadataValue(plugin,true));
-                plugin.getLogger().info("[ChaosControl] " + p.getDisplayName() + " has accepted the agreement!");
+                plugin.getLogger().info(p.getDisplayName() + " has accepted the agreement!");
                 @SuppressWarnings("unused")
 				BukkitTask task = new TeleportControl(this.plugin,p).runTaskLater(this.plugin, 20);
             }
